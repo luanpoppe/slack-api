@@ -11,8 +11,8 @@ dist/
 # Virtual environment
 venv/
 .venv/
-env/
-.env/
+env
+.env
 
 # Editor files
 .vscode/
