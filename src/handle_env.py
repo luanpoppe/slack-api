@@ -10,7 +10,6 @@ load_dotenv()
 @dataclass
 class Envs:
     SLACK_BOT_TOKEN: str = ""
-    HUE: str = ""
 
 
 envs = Envs()
