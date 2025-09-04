@@ -1,7 +1,8 @@
-from slack_sdk import WebClient
+from lib.slack.channels import SlackChannels
+from lib.slack.slack import Slack
 
-from handle_env import envs
 
-client = WebClient()
-api_response = client.api_test()
-print("api_response: ", api_response)
+slack = Slack()
+
+slack.test()
+slack.sendMessage(SlackChannels.geral(), "Opa")
