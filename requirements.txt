@@ -4,5 +4,7 @@
 #
 #    pip-compile '.\requirements.in'
 #
+python-dotenv==1.1.1
+    # via -r requirements.in
 slack-sdk==3.36.0
     # via -r requirements.in
