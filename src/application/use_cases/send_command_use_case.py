@@ -1,4 +1,3 @@
-import json
 from src.communication.requests.request_slack_command import RequestSlackCommand
 from src.communication.slack_blocks.initial_block import SlackInitialBlock
 from src.lib.slack.channels import SlackChannels

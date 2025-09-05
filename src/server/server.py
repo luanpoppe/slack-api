@@ -7,6 +7,7 @@ from src.exceptions.validation_exception import ValidationException
 
 from src.communication.requests.request_slack_command import RequestSlackCommand
 from src.communication.requests.request_slack_webhook import RequestSlackWebhook
+from src.server.handle_commands import HandleCommands
 
 app = FastAPI()
 
@@ -31,5 +32,5 @@ async def get_root(req: RequestSlackWebhook):
 
 @app.post("/slack/cmd/init")
 async def cmd_init(req: Annotated[RequestSlackCommand, Depends()]):
-    use_case = SendCommandUseCase()
-    return use_case.execute(req)
+    handle_commands = HandleCommands()
+    return handle_commands.execute(req)
