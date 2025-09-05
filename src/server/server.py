@@ -1,10 +1,19 @@
-from fastapi import FastAPI
+from typing import Annotated
+from fastapi import Depends, FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 
-from lib.slack.channels import SlackChannels
-from communication.request_slack_webhook import RequestSlackWebhook
-from lib.slack.slack import Slack
+from src.application.use_cases.send_command_use_case import SendCommandUseCase
+from src.exceptions.validation_exception import ValidationException
+
+from src.communication.requests.request_slack_command import RequestSlackCommand
+from src.communication.requests.request_slack_webhook import RequestSlackWebhook
 
 app = FastAPI()
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return ValidationException.execute(request, exc)
 
 
 @app.post("/slack/events")
@@ -15,6 +24,12 @@ async def get_root(req: RequestSlackWebhook):
 
         if req.type == "event_callback":
             print("\nreq", req)
-            Slack().sendMessage(SlackChannels.geral(), "Respondendo mensagem webhook")
+            # Slack().sendMessage(SlackChannels.geral(), "Respondendo mensagem webhook")
     except Exception as error:
         print("error: ", error)
+
+
+@app.post("/slack/cmd/init")
+async def cmd_init(req: Annotated[RequestSlackCommand, Depends()]):
+    use_case = SendCommandUseCase()
+    return use_case.execute(req)

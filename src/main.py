@@ -1,1 +1,1 @@
-from server.server import app
+from src.server.server import app

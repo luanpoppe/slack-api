@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class EventSlack(BaseModel):
-    type: Literal["app_mention"] | None = None
+    type: Literal["app_mention", "message"] | None = None
     user: str | None = None
     text: str | None = None
     ts: str | None = None

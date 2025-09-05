@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from dotenv import load_dotenv
 import os
 
-from exceptions.no_env_exception import NoEnvException
+from src.exceptions.no_env_exception import NoEnvException
 
 load_dotenv()
 

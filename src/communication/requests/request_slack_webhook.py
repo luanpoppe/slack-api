@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Literal
 
-from domain.slack.slack_webook_event import EventSlack
+from src.domain.slack.slack_webook_event import EventSlack
 
 
 class RequestSlackWebhook(BaseModel):
