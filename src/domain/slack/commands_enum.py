@@ -1,6 +1,3 @@
-from dataclasses import dataclass
-
-
 class CommandsEnum:
     @staticmethod
     def init():

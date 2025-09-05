@@ -3,11 +3,13 @@ from fastapi import Depends, FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 
 from src.application.use_cases.send_command_use_case import SendCommandUseCase
+from src.communication.requests.request_slack_interaction import RequestSlackInteraction
 from src.exceptions.validation_exception import ValidationException
 
 from src.communication.requests.request_slack_command import RequestSlackCommand
 from src.communication.requests.request_slack_webhook import RequestSlackWebhook
 from src.server.handle_commands import HandleCommands
+from src.server.handle_interactions import HandleInteractions
 
 app = FastAPI()
 
@@ -34,3 +36,9 @@ async def get_root(req: RequestSlackWebhook):
 async def cmd_init(req: Annotated[RequestSlackCommand, Depends()]):
     handle_commands = HandleCommands()
     return handle_commands.execute(req)
+
+
+@app.post("/slack/interaction")
+async def handle_interaction(req: Annotated[RequestSlackInteraction, Depends()]):
+    handle_commands = HandleInteractions()
+    return await handle_commands.execute(req)

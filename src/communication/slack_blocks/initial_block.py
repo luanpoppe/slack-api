@@ -1,33 +1,19 @@
+from src.domain.slack.actions_ids_enum import ActionsIdsEnum
+
+
 class SlackInitialBlock:
     @staticmethod
     def block():
         return [
             {
-                "type": "section",
+                "type": "header",
                 "text": {
-                    "type": "mrkdwn",
-                    "text": "You have a new request:\n*<fakeLink.toEmployeeProfile.com|Fred Enriquez - New device request>*",
+                    "type": "plain_text",
+                    "text": "Welcome to our slack bot! What do you want to do now?",
+                    "emoji": True,
                 },
             },
-            {
-                "type": "section",
-                "fields": [
-                    {"type": "mrkdwn", "text": "*Type:*\nComputer (laptop)"},
-                    {"type": "mrkdwn", "text": "*When:*\nSubmitted Aut 10"},
-                    {
-                        "type": "mrkdwn",
-                        "text": "*Last Update:*\nMar 10, 2015 (3 years, 5 months)",
-                    },
-                    {
-                        "type": "mrkdwn",
-                        "text": "*Reason:*\nAll vowel keys aren't working.",
-                    },
-                    {
-                        "type": "mrkdwn",
-                        "text": '*Specs:*\n"Cheetah Pro 15" - Fast, really fast"',
-                    },
-                ],
-            },
+            {"type": "divider"},
             {
                 "type": "actions",
                 "elements": [
@@ -36,36 +22,21 @@ class SlackInitialBlock:
                         "text": {
                             "type": "plain_text",
                             "emoji": True,
-                            "text": "Approve",
+                            "text": "Create new project",
                         },
-                        "style": "primary",
                         "value": "click_me_123",
+                        "action_id": ActionsIdsEnum.create_new_project(),
                     },
                     {
                         "type": "button",
                         "text": {
                             "type": "plain_text",
                             "emoji": True,
-                            "text": "Deny",
+                            "text": "Monitor existing project",
                         },
-                        "style": "danger",
                         "value": "click_me_123",
+                        "action_id": ActionsIdsEnum.monitor_existing_project(),
                     },
-                ],
-            },
-            {
-                "type": "actions",
-                "elements": [
-                    {
-                        "type": "button",
-                        "text": {
-                            "type": "plain_text",
-                            "text": "Click Me",
-                            "emoji": True,
-                        },
-                        "value": "click_me_123",
-                        "action_id": "actionId-0",
-                    }
                 ],
             },
         ]
