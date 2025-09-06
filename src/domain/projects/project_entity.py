@@ -1,7 +1,6 @@
-from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String
 
-Base = declarative_base()
+from src.lib.sql_alchemy.engine import Base
 
 
 class Projects(Base):
@@ -12,5 +11,5 @@ class Projects(Base):
         primary_key=True,
         index=True,
     )
-    nome = Column(String(50), nullable=False)
+    name = Column(String(50), nullable=False)
     email = Column(String(100), unique=True, index=True, nullable=False)

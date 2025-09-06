@@ -2,3 +2,4 @@ python-dotenv
 slack-sdk
 fastapi[standard]
 sqlalchemy
+alembic
