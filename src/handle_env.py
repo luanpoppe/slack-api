@@ -10,6 +10,7 @@ load_dotenv()
 @dataclass
 class Envs:
     SLACK_BOT_TOKEN: str = ""
+    DATABASE_URL: str = ""
 
 
 envs = Envs()
