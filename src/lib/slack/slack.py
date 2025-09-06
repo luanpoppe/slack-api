@@ -26,3 +26,12 @@ class Slack:
         )
 
         print("\nresponse", response)
+
+    def sendOpenModal(
+        self,
+        trigger_id: str,
+        view: Any,
+    ):
+        response = self.client.views_open(trigger_id=trigger_id, view=view)
+
+        print("\nresponse", response)

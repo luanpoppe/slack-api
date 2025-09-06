@@ -41,7 +41,7 @@ class SlackInteractionPayload(BaseModel):
     type: Literal["block_actions", "interactive_message"] | None = None
     user: SlackUser
     channel: SlackChannel | None = None
-    trigger_id: str | None = None
+    trigger_id: str
     actions: list[SlackActions] | None = None
 
 
