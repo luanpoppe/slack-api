@@ -8,7 +8,7 @@ from alembic import context
 from src.handle_env import envs
 from src.lib.sql_alchemy.engine import Base
 
-from src.domain.projects.project_entity import Projects
+from src.domain.projects.project_entity import ProjectEntity
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Literal, Union
+from typing import Any, Literal
 from fastapi import Form
 from pydantic import BaseModel
 from typing_extensions import Annotated
@@ -37,12 +37,29 @@ class SlackActions(BaseModel):
 
 
 @dataclass
+class SlackViewState:
+    values: Any
+
+
+@dataclass
+class SlackView:
+    id: str | None = None
+    team_id: str | None = None
+    type: str | None = None
+    callback_id: str | None = None
+    state: SlackViewState | None = None
+
+
+@dataclass
 class SlackInteractionPayload(BaseModel):
-    type: Literal["block_actions", "interactive_message"] | None = None
+    type: Literal["block_actions", "interactive_message", "view_submission"] | None = (
+        None
+    )
     user: SlackUser
     channel: SlackChannel | None = None
     trigger_id: str
     actions: list[SlackActions] | None = None
+    view: SlackView | None = None
 
 
 @dataclass
