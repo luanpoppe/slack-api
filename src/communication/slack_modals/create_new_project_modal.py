@@ -5,6 +5,7 @@ from slack_sdk.models.blocks import (
     PlainTextObject,
     DividerBlock,
     HeaderBlock,
+    ConversationSelectElement,
 )
 
 from src.domain.slack.enums.modal_ids_enum import ModalIdsEnum
@@ -34,8 +35,14 @@ class CreateNewProjectModal:
             ),
         )
 
-        print(
-            "\nModalIdsEnum.create_new_project_id", ModalIdsEnum.create_new_project_id
+        select_conversation = InputBlock(
+            block_id=f"select_conversation_block",
+            label=PlainTextObject(text="Select conversation", emoji=True),
+            element=ConversationSelectElement(
+                response_url_enabled=True,
+                default_to_current_conversation=True,
+                action_id="select_conversation_input",
+            ),
         )
 
         modal_view = View(
@@ -52,6 +59,8 @@ class CreateNewProjectModal:
                 CreateNewProjectModal._form_question(1),
                 CreateNewProjectModal._form_question(2),
                 CreateNewProjectModal._form_question(3),
+                DividerBlock(),
+                select_conversation,
             ],
         )
         return modal_view.to_dict()

@@ -42,12 +42,21 @@ class SlackViewState:
 
 
 @dataclass
+class SlackViewResponseUrl:
+    block_id: str
+    action_id: str
+    channel_id: str
+    response_url: str
+
+
+@dataclass
 class SlackView:
     id: str | None = None
     team_id: str | None = None
     type: str | None = None
     callback_id: str | None = None
     state: SlackViewState | None = None
+    response_urls: list[SlackViewResponseUrl] | None = None
 
 
 @dataclass

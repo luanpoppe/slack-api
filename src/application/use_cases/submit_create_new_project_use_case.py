@@ -2,6 +2,7 @@ from fastapi import Response
 from src.communication.requests.request_slack_interaction import SlackInteractionPayload
 from src.domain.projects.project_entity import CreateProjectEntity, ProjectEntity
 from src.domain.slack.forms.create_new_project import CreateNewProjectForm
+from src.lib.slack.slack import Slack
 from src.lib.sql_alchemy.repositories.project_repository import ProjectRepository
 
 
@@ -10,8 +11,9 @@ class SubmitCreateNewProjectUseCase:
         assert body.view is not None
         assert body.view.state is not None
 
+        print("\nbody.view.state.values", body.view.state.values)
+
         form = CreateNewProjectForm(**body.view.state.values).get_values()
-        print("\nform", form)
 
         repository = ProjectRepository()
         entity = CreateProjectEntity(
@@ -24,6 +26,14 @@ class SubmitCreateNewProjectUseCase:
 
         p_entity = ProjectEntity(**entity.__dict__)
         value_created = repository.create(p_entity)
-        print("\nvalue_created", value_created)
+
+        print("\nbody.view", body.view)
+
+        assert form.conversation_id is not None
+
+        Slack().sendMessage(
+            form.conversation_id,
+            f"Project {value_created.name} successfully created",
+        )
 
         return Response(status_code=200)

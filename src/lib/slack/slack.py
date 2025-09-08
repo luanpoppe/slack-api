@@ -5,10 +5,10 @@ from slack_sdk.models.blocks import Block
 
 
 class Slack:
-    client = WebClient(token=envs.SLACK_BOT_TOKEN)
+    _client = WebClient(token=envs.SLACK_BOT_TOKEN)
 
     def test(self):
-        api_response = self.client.api_test()
+        api_response = self._client.api_test()
         print("api_response: ", api_response)
 
     def sendMessage(
@@ -21,7 +21,7 @@ class Slack:
             raise Exception(
                 "To send a message, you must pass a text string or a block string"
             )
-        response = self.client.chat_postMessage(
+        response = self._client.chat_postMessage(
             channel=channel_id, text=text, blocks=blocks
         )
 
@@ -32,6 +32,6 @@ class Slack:
         trigger_id: str,
         view: Any,
     ):
-        response = self.client.views_open(trigger_id=trigger_id, view=view)
+        response = self._client.views_open(trigger_id=trigger_id, view=view)
 
         print("\nresponse", response)

@@ -17,12 +17,10 @@ class HandleInteractions:
 
     async def execute(self, req: RequestSlackInteraction):
         body = SlackInteractionPayload.model_validate_json(req.payload)
-        print("\nbody", body)
+
         if body.type == "view_submission":
             if not body.view or not body.view.state:
                 return
-
-            print("\nbody.view.id", body.view.id)
 
             if body.view.callback_id == ModalIdsEnum.create_new_project_id:
                 use_case = SubmitCreateNewProjectUseCase()
@@ -35,3 +33,7 @@ class HandleInteractions:
             if body.actions[0].action_id == ActionsIdsEnum.create_new_project():
                 use_case = ClickCreateNewProjectUseCase()
                 return use_case.execute(body)
+            else:
+                return Response(status_code=400)
+        else:
+            return Response(status_code=500)
