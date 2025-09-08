@@ -30,7 +30,7 @@ class HandleInteractions:
             return Response(status_code=400)
 
         elif body.type == "block_actions":
-            if body.actions[0].action_id == ActionsIdsEnum.create_new_project():
+            if body.get_action_id() == ActionsIdsEnum.create_new_project():
                 use_case = ClickCreateNewProjectUseCase()
                 return use_case.execute(body)
             else:

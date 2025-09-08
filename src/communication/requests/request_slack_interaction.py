@@ -70,6 +70,11 @@ class SlackInteractionPayload(BaseModel):
     actions: list[SlackActions] | None = None
     view: SlackView | None = None
 
+    def get_action_id(self):
+        assert self.actions is not None
+
+        return self.actions[0].action_id
+
 
 @dataclass
 class RequestSlackInteraction:
