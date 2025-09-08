@@ -1,4 +1,4 @@
-from src.domain.slack.actions_ids_enum import ActionsIdsEnum
+from src.domain.slack.enums.actions_ids_enum import ActionsIdsEnum
 
 
 class SlackInitialBlock:

@@ -7,6 +7,8 @@ from slack_sdk.models.blocks import (
     HeaderBlock,
 )
 
+from src.domain.slack.enums.modal_ids_enum import ModalIdsEnum
+
 
 class CreateNewProjectModal:
     @staticmethod
@@ -32,9 +34,13 @@ class CreateNewProjectModal:
             ),
         )
 
+        print(
+            "\nModalIdsEnum.create_new_project_id", ModalIdsEnum.create_new_project_id
+        )
+
         modal_view = View(
             type="modal",
-            callback_id="modal-identifier",
+            callback_id=ModalIdsEnum.create_new_project_id,
             title="Create New Project",
             submit=PlainTextObject(text="Create", emoji=True),
             close=PlainTextObject(text="Cancel", emoji=True),
