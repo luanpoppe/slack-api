@@ -1,4 +1,4 @@
-from fastapi import Response
+from fastapi import Response, status
 from src.communication.requests.request_slack_interaction import SlackInteractionPayload
 from src.domain.projects.project_entity import CreateProjectEntity, ProjectEntity
 from src.domain.slack.forms.create_new_project import CreateNewProjectForm
@@ -8,32 +8,36 @@ from src.lib.sql_alchemy.repositories.project_repository import ProjectRepositor
 
 class SubmitCreateNewProjectUseCase:
     def execute(self, body: SlackInteractionPayload):
-        assert body.view is not None
-        assert body.view.state is not None
+        try:
+            assert body.view is not None
+            assert body.view.state is not None
 
-        print("\nbody.view.state.values", body.view.state.values)
+            print("\nbody.view.state.values", body.view.state.values)
 
-        form = CreateNewProjectForm(**body.view.state.values).get_values()
+            form = CreateNewProjectForm(**body.view.state.values).get_values()
 
-        repository = ProjectRepository()
-        entity = CreateProjectEntity(
-            name=form.name,
-            description=form.description,
-            question_one=form.question_1,
-            question_two=form.question_2,
-            question_three=form.question_3,
-        )
+            repository = ProjectRepository()
+            entity = CreateProjectEntity(
+                name=form.name,
+                description=form.description,
+                question_one=form.question_1,
+                question_two=form.question_2,
+                question_three=form.question_3,
+            )
 
-        p_entity = ProjectEntity(**entity.__dict__)
-        value_created = repository.create(p_entity)
+            p_entity = ProjectEntity(**entity.__dict__)
+            value_created = repository.create(p_entity)
 
-        print("\nbody.view", body.view)
+            print("\nbody.view", body.view)
 
-        assert form.conversation_id is not None
+            assert form.conversation_id is not None
 
-        Slack().sendMessage(
-            form.conversation_id,
-            f"Project {value_created.name} successfully created",
-        )
+            Slack().sendMessage(
+                form.conversation_id,
+                f"Project {value_created.name} successfully created",
+            )
 
-        return Response(status_code=200)
+            return Response(status_code=200)
+        except Exception as error:
+            print("error: ", error)
+            return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

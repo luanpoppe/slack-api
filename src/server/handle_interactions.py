@@ -2,6 +2,9 @@ from fastapi import Response
 from src.application.use_cases.click_create_new_project_use_case import (
     ClickCreateNewProjectUseCase,
 )
+from src.application.use_cases.click_monitor_existing_projects_use_case import (
+    ClickMonitorExistingProjectsUseCase,
+)
 from src.application.use_cases.submit_create_new_project_use_case import (
     SubmitCreateNewProjectUseCase,
 )
@@ -30,10 +33,18 @@ class HandleInteractions:
             return Response(status_code=400)
 
         elif body.type == "block_actions":
-            if body.get_action_id() == ActionsIdsEnum.create_new_project():
+            action_id = body.get_action_id()
+
+            if action_id == ActionsIdsEnum.create_new_project():
                 use_case = ClickCreateNewProjectUseCase()
                 return use_case.execute(body)
+
+            elif action_id == ActionsIdsEnum.monitor_existing_project():
+                use_case = ClickMonitorExistingProjectsUseCase()
+                return use_case.execute(body)
+
             else:
                 return Response(status_code=400)
+
         else:
             return Response(status_code=500)
