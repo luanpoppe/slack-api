@@ -12,9 +12,8 @@ class SubmitCreateNewProjectUseCase:
             assert body.view is not None
             assert body.view.state is not None
 
-            print("\nbody.view.state.values", body.view.state.values)
-
             form = CreateNewProjectForm(**body.view.state.values).get_values()
+            selected_users = form.selected_users
 
             repository = ProjectRepository()
             entity = CreateProjectEntity(
@@ -28,9 +27,13 @@ class SubmitCreateNewProjectUseCase:
             p_entity = ProjectEntity(**entity.__dict__)
             value_created = repository.create(p_entity)
 
-            print("\nbody.view", body.view)
-
             assert form.conversation_id is not None
+
+            for user in selected_users:
+                Slack().sendMessage(
+                    user,
+                    text=f"Please answer the formulary of the project: {form.name}",
+                )
 
             Slack().sendMessage(
                 form.conversation_id,

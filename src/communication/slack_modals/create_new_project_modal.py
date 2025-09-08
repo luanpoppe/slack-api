@@ -6,6 +6,7 @@ from slack_sdk.models.blocks import (
     DividerBlock,
     HeaderBlock,
     ConversationSelectElement,
+    UserMultiSelectElement,
 )
 
 from src.domain.slack.enums.modal_ids_enum import ModalIdsEnum
@@ -45,6 +46,15 @@ class CreateNewProjectModal:
             ),
         )
 
+        select_users = InputBlock(
+            block_id=f"select_users_block",
+            label=PlainTextObject(text="Select users", emoji=True),
+            element=UserMultiSelectElement(
+                placeholder="Select users to be notified",
+                action_id="select_users_input",
+            ),
+        )
+
         modal_view = View(
             type="modal",
             callback_id=ModalIdsEnum.create_new_project_id,
@@ -61,6 +71,7 @@ class CreateNewProjectModal:
                 CreateNewProjectModal._form_question(3),
                 DividerBlock(),
                 select_conversation,
+                select_users,
             ],
         )
         return modal_view.to_dict()

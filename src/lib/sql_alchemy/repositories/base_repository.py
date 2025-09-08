@@ -19,8 +19,8 @@ class BaseRepository(Generic[T]):
         item = db.get_one(self.entity, id)
         return item
 
-    def get_all(self) -> list[T]:
-        all_items = db.query(self.entity).limit(10).all()
+    def get_all(self, limit: int | None = 10) -> list[T]:
+        all_items = db.query(self.entity).limit(limit).all()
         return all_items
 
     def update(self, id: int, new_item: T):

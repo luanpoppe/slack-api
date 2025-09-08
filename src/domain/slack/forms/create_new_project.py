@@ -1,8 +1,9 @@
 from dataclasses import dataclass
-from typing import Dict, Literal
+from typing import Any, Dict, Literal
 from pydantic import BaseModel
 
 from src.domain.slack.forms.form_input_value import FormInputValue
+from src.domain.slack.forms.form_selected_users import FormSelectedUsers
 from src.domain.slack.forms.from_selected_conversation import FormSelectedConversation
 
 
@@ -17,6 +18,7 @@ class CreateNewProjectForm(BaseModel):
     select_conversation_block: Dict[
         Literal["select_conversation_input"], FormSelectedConversation
     ]
+    select_users_block: Dict[Literal["select_users_input"], FormSelectedUsers]
 
     def get_values(self):
         return CreateNewProjectFormFormated(
@@ -30,6 +32,7 @@ class CreateNewProjectForm(BaseModel):
             conversation_id=self.select_conversation_block[
                 "select_conversation_input"
             ].selected_conversation,
+            selected_users=self.select_users_block["select_users_input"].selected_users,
         )
 
 
@@ -41,3 +44,4 @@ class CreateNewProjectFormFormated:
     question_2: str
     question_3: str
     conversation_id: str
+    selected_users: list[str]
