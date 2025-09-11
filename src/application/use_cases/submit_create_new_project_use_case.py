@@ -1,5 +1,6 @@
 from fastapi import Response, status
 from src.communication.requests.request_slack_interaction import SlackInteractionPayload
+from src.communication.slack_blocks.user_notification_block import UserNotificationBlock
 from src.domain.projects.project_entity import CreateProjectEntity, ProjectEntity
 from src.domain.slack.forms.create_new_project import CreateNewProjectForm
 from src.lib.slack.slack import Slack
@@ -30,10 +31,7 @@ class SubmitCreateNewProjectUseCase:
             assert form.conversation_id is not None
 
             for user in selected_users:
-                Slack().sendMessage(
-                    user,
-                    text=f"Please answer the formulary of the project: {form.name}",
-                )
+                Slack().sendMessage(user, blocks=UserNotificationBlock.block(form))
 
             Slack().sendMessage(
                 form.conversation_id,

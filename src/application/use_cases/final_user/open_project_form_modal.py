@@ -2,9 +2,6 @@ from src.communication.requests.request_slack_interaction import SlackInteractio
 from src.communication.slack_modals.answer_project_form_modal import (
     AnswerProjectFormModal,
 )
-from src.communication.slack_modals.create_new_project_modal import (
-    CreateNewProjectModal,
-)
 from src.lib.slack.slack import Slack
 from fastapi import Response, status
 
